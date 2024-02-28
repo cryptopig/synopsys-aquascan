@@ -1,28 +1,32 @@
 'use client';
 
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
 
-// import Graph from './graph'; // We need client side rendering (https://github.com/recharts/recharts/issues/2918#issuecomment-1268947427)
-import dynamic from "next/dynamic";
-
-
-
-
-// import { Flex } from "@radix-ui/themes";
-const Graph = dynamic(() => import('./graph'), { ssr: false });
-
-
-
-
-
-
-
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 
-
-
-
-
-
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ReferenceLine,
+  ResponsiveContainer,
+} from 'recharts';
 
 
 
@@ -82,22 +86,44 @@ export default function Page() {
 
   return (
     <>
+      <Card>
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>
+            
+        </CardContent>
+        <CardFooter>
+          <p>Card Footer</p>
+        </CardFooter>
+      </Card>
 
+        <LineChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{
+            top: 20,
+            right: 50,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          {/* <CartesianGrid /> */}
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          {/* <ReferenceLine x="Page C" stroke="red" label="Max PV PAGE" /> */}
+          {/* <ReferenceLine y={9800} label="Max" stroke="red" /> */}
+          <ReferenceLine y={9000} label="Allowed by state" stroke="red" />
+          {/* Add 'isAnimationActive={false}' to disable animation */}
+          <Line type="monotone" dataKey="pv" stroke="#8884d8" />
+          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+        </LineChart>
 
-
-      <div className="flex gap-4 p-4">
-        <div className="flex-1"><Graph data={data}></Graph></div>
-        <div className="flex-1"><Graph data={data}></Graph></div>
-        <div className="flex-1"><Graph data={data}></Graph></div>
-      </div>
     </>
   );
 }
-
-
-
-
-
-
-
-
