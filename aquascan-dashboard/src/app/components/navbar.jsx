@@ -96,24 +96,22 @@ export default function Navbar() {
                     >
                       <div className="h-6 w-6" />
                       <div className="mb-2 mt-4 text-lg font-medium">
-                        shadcn/ui
+                        AquaScan
                       </div>
                       <p className="text-sm leading-tight text-muted-foreground">
-                        Beautifully designed components that you can copy and
-                        paste into your apps. Accessible. Customizable. Open
-                        Source.
+                        A Real-Time Water Quality Monitoring System using A Microcontroller
                       </p>
                     </a>
                   </NavigationMenuLink>
                 </li>
-                <ListItem href="/docs" title="Introduction">
-                  Re-usable components built using Radix UI and Tailwind CSS.
+                <ListItem href="/home" title="Home">
+                  View information about currently connected devices.
                 </ListItem>
-                <ListItem href="/docs/installation" title="Installation">
-                  How to install dependencies and structure your app.
+                <ListItem href="/dash" title="Dashboard">
+                  Past logs of all received sensor data and analysis.
                 </ListItem>
-                <ListItem href="/docs/primitives/typography" title="Typography">
-                  Styles for headings, paragraphs, lists...etc
+                <ListItem href="/manage" title="Manage">
+                  Manage the currently connected units.
                 </ListItem>
               </ul>
             </NavigationMenuContent>
