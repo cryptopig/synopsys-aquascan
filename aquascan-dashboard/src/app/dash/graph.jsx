@@ -33,13 +33,13 @@ import {
 
 
 
-export default function Page({data}) {
+export default function Page({data, title, description}) {
   return (
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card Description</CardDescription>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
           <LineChart

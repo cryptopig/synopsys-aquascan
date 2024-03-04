@@ -10,6 +10,4 @@ Good looking components:
 - pagination
 
 
-Added:
-1:
-- alert-dialog, badge, button, calendar, card, checkbox, input, label, menubar, navigation-menu, pagination, popover, progress, radio-group, resizable, slider, sonner, switch, table, tabs, textarea, toggle, toggle-group
+Added: alert-dialog, badge, button, calendar, card, checkbox, command, input, label, menubar, navigation-menu, pagination, popover, progress, radio-group, resizable, slider, sonner, switch, table, tabs, textarea, toggle, toggle-group
