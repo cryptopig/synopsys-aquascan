@@ -28,6 +28,11 @@ void setup()
 void loop()
 {
 
+// #####################################################################################
+// TOTAL DISSOLVED SOLIDS SENSOR
+// #####################################################################################
+
+
     //temperature = readTemperature();  //add your temperature sensor and read it
     gravityTds.setTemperature(temperature);  // set the temperature and execute temperature compensation
     gravityTds.update();  //sample and calculate
@@ -37,12 +42,20 @@ void loop()
 
     Serial.println("______________________");
 
+// #####################################################################################
+// TURBIDITY DISSOLVED SOLIDS SENSOR
+// #####################################################################################
+
     int turbidity = analogRead(A2);
     float voltage = turbidity * (5.0/1023.0);
     Serial.print(voltage);
     Serial.println (" turbidity");
 
     Serial.println("______________________");
+
+// #####################################################################################
+// pH SENSOR
+// #####################################################################################
     
 
     static unsigned long samplingTime = millis();
