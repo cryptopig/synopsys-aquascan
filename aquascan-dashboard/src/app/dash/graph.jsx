@@ -33,7 +33,8 @@ import {
 
 
 
-export default function Page({data, title, description}) {
+export default function Page({data, title, description, values, referenceLines}) {
+
   return (
     <>
       <Card>
@@ -60,10 +61,22 @@ export default function Page({data, title, description}) {
             <YAxis />
             <Tooltip />
             <Legend />
-            <ReferenceLine y={9000} label="Allowed by state" stroke="red" />
+            {/* <ReferenceLine y={9000} label="Allowed by state" stroke="red" /> */}
+            {referenceLines.map(value => {
+              return (
+                // Says whether safe, unsafe, or moderate
+                // <ReferenceLine y={value[0]} label={value[1]} stroke={value[2]} />
+                <ReferenceLine key={value[0] + value[1] + value[2]} y={value[0]} stroke={value[2]} />
+              );
+            })}
             {/* Add 'isAnimationActive={false}' to disable animation */}
-            <Line type="monotone" dataKey="pv" stroke="#8884d8" />
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            {/* <Line type="monotone" dataKey="pv" stroke="#8884d8" />
+            <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
+            {values.map(value => {
+              return (
+                <Line key={value} type="monotone" dataKey={value} stroke="#82ca9d" />
+              );
+            })}
           </LineChart>
         </CardContent>
       </Card>

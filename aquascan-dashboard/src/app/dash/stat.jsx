@@ -14,7 +14,7 @@ export default function Stat({title, description, color}) {
     <Card>
       <CardHeader>
         {/* <p>Card Content</p> */}
-        <CardTitle style={{color: color}}>{title}</CardTitle>
+        <CardTitle style={{color: color}}>{title == null ? '-' : title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       {/* <CardContent>
