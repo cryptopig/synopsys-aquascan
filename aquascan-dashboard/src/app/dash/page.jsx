@@ -39,7 +39,7 @@ function formatTime(ms) {
   minutes = minutes < 10 ? '0'+minutes : minutes;
   seconds = seconds < 10 ? '0'+seconds : seconds;
   let time = hours + ':' + minutes + ':' + seconds + ampm;
-  return time;
+  return (t.getMonth() + 1) + '/' + t.getDate() + '/' + t.getFullYear() + ' ' + time;
 }
 
 
@@ -159,16 +159,25 @@ function getOverallStatusUsingAllStatus(statuses) {
 
 export default function Page() {
 
+
   const [date, setDate] = useState({
     // from: new Date(2022, 0, 20),
     // to: addDays(new Date(2022, 0, 20), 20),
-    from: (() => {
-      let c = new Date();
-      c.setDate(c.getDate() - 1)
-      return c;
-    })(),
+    from: new Date(0),
     to: new Date(),
+    
+    // from: (() => {
+    //   let c = new Date();
+    //   c.setMonth(c.getMonth() - 1);
+    //   return c;
+    // })(),
+    // to: (() => {
+    //   return new Date();
+    // })(),
+    // past: true,
   });
+
+  // const [date2, setDate2] = useState(new Date());
 
 
   // const units = [
@@ -202,6 +211,7 @@ export default function Page() {
       fetch(after ? '/api?after=' + encodeURIComponent(JSON.stringify(after)) : '/api')
       .then(raw => raw.json())
       .then((addData) => {
+
         // console.log(newData);
         let a = {};
         // console.log(lastData);
@@ -221,33 +231,57 @@ export default function Page() {
 
         let gd2 = [];
         for (let index = 1; index <= 3; index++) {
-          let gd = [];
-          gd2.push(gd);
+          let graphData = [];
+          gd2.push(graphData);
           for (const [k, v] of Object.entries(newData)) {
             for (let i = 0; i < v.data.length; i++) {
               let d = v.data[i];
               let found = false;
-              for (let i2 = 0; i2 < gd.length; i2++) {
-                let g = gd[i2];
+              for (let i2 = 0; i2 < graphData.length; i2++) {
+                let g = graphData[i2];
                 if (g.time == d[0]) {
                   g[v.name] = d[index];
                   found = true;
                 }
               }
               if (!found) {
-                let g = {
-                  name: formatTime(d[0]),
-                  // name: 'a',
-                  time: d[0],
-                };
-                g[v.name] = d[index];
-                gd.push(g);
+                // if (from <= d[0] && d[0] <= to) {
+                  let g = {
+                    name: formatTime(d[0]),
+                    // name: 'a',
+                    time: d[0],
+                  };
+                  g[v.name] = d[index];
+                  graphData.push(g);
+                // }
               }
             }
           }
         }
-        // console.log(gd2);
-        setGraphData(gd2);
+
+
+
+        {
+          console.log(date.to, date.from);
+          let from, to;
+          if (date.past) {
+            to = new Date();
+            from = new Date(to.getTime() - (date.to.getTime() - date.from.getTime()));
+            // console.log(from, to);
+          } else {
+            from = new Date(date.from.getTime());
+            to = new Date(date.to.getTime());
+          }
+          to = to.getTime();
+          from = from.getTime();
+          function f(v) {
+            return from <= v.time && v.time <= to;
+          }
+          setGraphData([gd2[0].filter(f), gd2[1].filter(f), gd2[2].filter(f)]);
+          // console.log('a')
+          // setGraphData(gd2);
+        }
+
 
         let newUnits = [];
         for (const [k, v] of Object.entries(newData)) {
@@ -265,7 +299,7 @@ export default function Page() {
     if (!data) {
       f();
     }
-  }, [setData, setGraphData]);
+  }, [setData, setGraphData, date, data]);
 
 
 
@@ -291,6 +325,22 @@ export default function Page() {
   }
   // console.log(units, data);
 
+  
+  // let from, to;
+  // if (date.past) {
+  //   to = new Date();
+  //   from = new Date(to.getTime() - (date.to.getTime() - date.from.getTime()));
+  //   console.log(from, to);
+  // } else {
+  //   from = new Date(date.from.getTime());
+  //   to = new Date(date.to.getTime());
+  // }
+  // to = to.getTime();
+  // from = from.getTime();
+  // function f(v) {
+  //   return from <= v.time && v.time <= to;
+  // }
+  // let graphData = [graphData[0].filter(f), graphData[1].filter(f), graphData[2].filter(f)];
 
   let temp;
 
@@ -351,6 +401,9 @@ export default function Page() {
         <div className="flex-1">
           <DatePickerWithRange date={date} setDate={setDate} />
         </div>
+        {/* <div className="flex-1">
+          <Time date={date2} setDate={setDate2} />
+        </div> */}
       </div>
 
       <div className="flex gap-4" style={{paddingLeft: '1rem', paddingRight: '1rem', paddingTop: '1rem'}}>

@@ -103,5 +103,17 @@ export async function POST(req) {
   // unsafe
   for (let i = 0; i < 100; i++) {fetch('/api', {method: 'Post', body: JSON.stringify([0, Date.now(), 7, 0, 600])})}
 
+  // simulate safe fluctuation
+  function random(a, b) {return (Math.random() * (a - b) + b).toFixed(4)}for (let i = 0; i < 100; i++) {fetch('/api', {method: 'Post', body: JSON.stringify([0, Date.now(), random(6.5, 8.5), random(0, 5), random(0, 500)])})}
+
+
+  function random(a, b) {return (Math.random() * (a - b) + b).toFixed(4)}for (let i = 0; i < 100; i++) {fetch('/api', {method: 'Post', body: JSON.stringify([0, Date.now(), random(6.5, 8.5), random(0, 5), random(0, 100)])})}
+
+
+  // simulate safe fluctuation v2
+  function random(a, b) {return (Math.random() * (a - b) + b).toFixed(4)}for (let i = 0; i < 100; i++) {fetch('/api', {method: 'Post', body: JSON.stringify([0, (() => {let c = new Date(); c.setDate(c.getDate() - (100 - i)); return c.getTime();})(), random(6.5, 8.5), random(0, 5), random(0, 500)])})}
+
+  // date gen
+  (() => {let c = new Date(); c.setDate(c.getDate() - (100 - i)); return c.getTime();})()
   */
 }
