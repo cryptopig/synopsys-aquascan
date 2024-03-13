@@ -78,7 +78,8 @@ const threshholds = {
   },
 };
 
-let goodPercent = 0.2; // if its in 20% of threshhold, good
+let goodPercent = 0.5; // if its in 50% of threshhold, good
+// original: 0.2
 
 
 function getColorFromStatus(status) {
