@@ -88,6 +88,8 @@ function getColorFromStatus(status) {
     return '#D5AE39';
   } else if (status == 2) {
     return '#2A7E3B';
+  } else if (status == -1) {
+    return '#000000';
   }
 }
 
@@ -98,6 +100,8 @@ function getWordFromStatus(status) {
     return 'Moderate';
   } else if (status == 2) {
     return 'Safe';
+  } else if (status == -1) {
+    return 'No data';
   }
 }
 
@@ -110,6 +114,8 @@ function getModerateThreshholdMin(threshhold) {
 }
 
 function getStatusUsingValueAndThreshhold(value, threshhold) {
+  if (value === null) {return -1;}
+
   if (value > threshhold.max || value < threshhold.min) {
     // UNSAFE
     return 0;
@@ -123,6 +129,7 @@ function getStatusUsingValueAndThreshhold(value, threshhold) {
 }
 
 function getOverallStatusUsingAllStatus(statuses) {
+
   // if unsafe, then unsafe
   // if less than half are moderate, then safe
   // if more than half are safe
@@ -137,6 +144,8 @@ function getOverallStatusUsingAllStatus(statuses) {
       moderateCount++;
     } else if (status == 2) {
       safeCount++;
+    } else if (status == -1) {
+      return -1;
     }
   }
 
@@ -163,8 +172,9 @@ export default function Page() {
   const [date, setDate] = useState({
     // from: new Date(2022, 0, 20),
     // to: addDays(new Date(2022, 0, 20), 20),
-    from: new Date(0),
+    from: new Date(new Date().getTime() - 60 * 60 * 1000),
     to: new Date(),
+    special: '1m',
     
     // from: (() => {
     //   let c = new Date();
@@ -204,6 +214,12 @@ export default function Page() {
 
   const [data, setData] = useState(false);
   const [graphData, setGraphData] = useState([]);
+
+
+  function getDateVar() {
+    return date.to;
+  }
+  // console.log(date2);
   useEffect(() => {
     let f;
     let lastData = {};
@@ -230,6 +246,7 @@ export default function Page() {
         setData(newData);
 
         let gd2 = [];
+        let maxT = 0;
         for (let index = 1; index <= 3; index++) {
           let graphData = [];
           gd2.push(graphData);
@@ -254,6 +271,10 @@ export default function Page() {
                   g[v.name] = d[index];
                   graphData.push(g);
                 // }
+
+                if (d[0] > maxT) {
+                  maxT = d[0];
+                }
               }
             }
           }
@@ -262,15 +283,30 @@ export default function Page() {
 
 
         {
-          console.log(date.to, date.from);
+          // console.log(getDateVar()); // Date isn't updated...
+          // date
           let from, to;
-          if (date.past) {
+          if (date.special == 'past1h') {
             to = new Date();
-            from = new Date(to.getTime() - (date.to.getTime() - date.from.getTime()));
-            // console.log(from, to);
+            from = new Date(new Date().getTime() - 60 * 60 * 1000);
+          } else if (date.special == 'past1m') {
+            to = new Date();
+            from = new Date(new Date().getTime() - 60 * 1000);
+          } else if (date.special == '1m') {
+            to = new Date(maxT);
+            from = new Date(to.getTime() - 60 * 1000);
           } else {
-            from = new Date(date.from.getTime());
-            to = new Date(date.to.getTime());
+            console.log(date.to, date.from);
+            if (date.past) {
+              to = new Date();
+              from = new Date(to.getTime() - (date.to.getTime() - date.from.getTime()));
+              // console.log(from, to);
+            } else {
+              from = new Date(date.from.getTime());
+              to = new Date(date.to.getTime());
+            }
+            to = to.getTime();
+            from = from.getTime();
           }
           to = to.getTime();
           from = from.getTime();
@@ -345,42 +381,55 @@ export default function Page() {
   let temp;
 
   let acidity;
-  temp = graphData[0][graphData[0].length - 1];
-  if (temp !== undefined) {
-    acidity = 0;
-    for (let i = 0; i < values2.length; i++) {
-      acidity += temp[values2[i]];
+  if (graphData[0].length > 0) {
+    temp = graphData[0][graphData[0].length - 1];
+    if (temp !== undefined) {
+      acidity = 0;
+      for (let i = 0; i < values2.length; i++) {
+        acidity += temp[values2[i]];
+      }
+      acidity /= values2.length;
+    } else {
+      acidity = null;
     }
-    acidity /= values2.length;
   } else {
     acidity = null;
   }
 
   let turbidity;
-  temp = graphData[1][graphData[1].length - 1];
-  if (temp !== undefined) {
-    turbidity = 0;
-    for (let i = 0; i < values2.length; i++) {
-      turbidity += temp[values2[i]];
+  if (graphData[1].length > 0) {
+    temp = graphData[1][graphData[1].length - 1];
+    if (temp !== undefined) {
+      turbidity = 0;
+      for (let i = 0; i < values2.length; i++) {
+        turbidity += temp[values2[i]];
+      }
+      turbidity /= values2.length;
+    } else {
+      turbidity = null;
     }
-    turbidity /= values2.length;
   } else {
     turbidity = null;
   }
 
   let totaldissolvedsolids;
-  temp = graphData[2][graphData[2].length - 1];
-  if (temp !== undefined) {
-    totaldissolvedsolids = 0;
-    for (let i = 0; i < values2.length; i++) {
-      totaldissolvedsolids += temp[values2[i]];
+  if (graphData[2].length > 0) {
+    temp = graphData[2][graphData[2].length - 1];
+    if (temp !== undefined) {
+      totaldissolvedsolids = 0;
+      for (let i = 0; i < values2.length; i++) {
+        totaldissolvedsolids += temp[values2[i]];
+      }
+      totaldissolvedsolids /= values2.length;
+    } else {
+      totaldissolvedsolids = null;
     }
-    totaldissolvedsolids /= values2.length;
   } else {
     totaldissolvedsolids = null;
   }
+
   let statuses = [getStatusUsingValueAndThreshhold(acidity, threshholds.acidity), getStatusUsingValueAndThreshhold(turbidity, threshholds.turbidity), getStatusUsingValueAndThreshhold(totaldissolvedsolids, threshholds.totaldissolvedsolids)];
-  
+
 
 
 

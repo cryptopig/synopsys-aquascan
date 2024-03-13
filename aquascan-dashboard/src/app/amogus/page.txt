@@ -1,0 +1,19 @@
+
+      <div className="flex gap-4" style={{paddingLeft: '1rem', paddingRight: '1rem', paddingTop: '1rem'}}>
+        <div className="flex-1"><Stat title={getWordFromStatus(getOverallStatusUsingAllStatus(statuses))} description={'Overall assessment'} /></div>
+        <div className="flex-1"><Stat title={acidity} description={'Acidity (pH)'} /></div>
+        <div className="flex-1"><Stat title={turbidity} description={'Turbidity (NTU)'} /></div>
+        <div className="flex-1"><Stat title={totaldissolvedsolids} description={'Total Dissolved Solids (PPM)'} /></div>
+      </div>
+
+      <div className="flex gap-4 p-4">
+        <div className="flex-1"><Graph title={'Acidity (pH)'} description={'How acidic the water is.'} data={[]} /></div>
+        <div className="flex-1"><Graph title={'Turbidity (NTU)'} description={'How clear the water is.'} data={[]} /></div>
+        <div className="flex-1"><Graph title={'Total Dissolved Solids (PPM)'} description={'How much solids are dissolved.'} data={[]} /></div>
+      </div>
+
+
+
+
+
+

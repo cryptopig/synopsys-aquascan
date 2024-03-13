@@ -72,6 +72,7 @@ export default function Page({data, title, description, values, referenceLines})
             {/* Add 'isAnimationActive={false}' to disable animation */}
             {/* <Line type="monotone" dataKey="pv" stroke="#8884d8" />
             <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
+            {/* isAnimationActive={false} */}
             {values.map(value => {
               return (
                 <Line key={value} type="monotone" dataKey={value} stroke="#82ca9d" />

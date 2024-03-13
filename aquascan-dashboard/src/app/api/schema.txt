@@ -1,0 +1,24 @@
+
+
+
+
+[
+    UnitId (int), UnixTimestampMS (int), pH (decimal),
+    turbidity (decimal), totalDissolvedSolids (decimal)
+]
+
+{
+    UnitId: {
+        name: name,
+        data: [
+            [
+                UnixTimestampMS (int), pH (decimal),
+                turbidity (decimal), totalDissolvedSolids (decimal)
+            ],
+            ...
+        ]
+    },
+    ...
+}
+
+;
