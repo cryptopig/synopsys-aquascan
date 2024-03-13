@@ -4,15 +4,19 @@
 #define pHSensorPin A0            //pH meter Analog output to Arduino Analog Input 0
 #define TdsSensorPin A1
 #define turbiditySensorPin A2
+
 GravityTDS gravityTds;
 #define samplingInterval 20
 #define printInterval 800
 #define ArrayLenth  40 
 #define Offset 0.00;
+
 int pHArray[ArrayLenth];   //Store the average value of the sensor feedback
 int pHArrayIndex=0;
 
 float temperature = 25,tdsValue = 0;
+
+
 
 void setup()
 {
