@@ -82,7 +82,7 @@ ListItem.displayName = "ListItem"
 
 export default function Navbar() {
     return (
-      <NavigationMenu>
+      <NavigationMenu style={{justifyContent: "center"}}>
         <NavigationMenuList>
           <NavigationMenuItem>
             <Link href="/" legacyBehavior passHref>
@@ -101,7 +101,7 @@ export default function Navbar() {
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                       href="/"
                     >
-                      <div className="h-6 w-6" />
+                      <img src={"logo.png"} />
                       <div className="mb-2 mt-4 text-lg font-medium">
                         AquaScan
                       </div>
@@ -111,7 +111,7 @@ export default function Navbar() {
                     </a>
                   </NavigationMenuLink>
                 </li>
-                <ListItem href="/home" title="Home">
+                <ListItem href="/" title="Home">
                   View information about currently connected devices.
                 </ListItem>
                 <ListItem href="/dash" title="Dashboard">
@@ -120,22 +120,6 @@ export default function Navbar() {
                 <ListItem href="/manage" title="Manage">
                   Manage the currently connected units.
                 </ListItem>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                {components.map((component) => (
-                  <ListItem
-                    key={component.title}
-                    title={component.title}
-                    href={component.href}
-                  >
-                    {component.description}
-                  </ListItem>
-                ))}
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
